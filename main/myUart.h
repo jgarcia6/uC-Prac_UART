@@ -9,7 +9,7 @@ void uartInit(uart_port_t uart_num, uint32_t baudrate, uint8_t size, uint8_t par
 void uartPuts(uart_port_t uart_num, char *str);
 void uartPutchar(uart_port_t uart_num, char data);
 
-// Received
+// Receive
 bool uartKbhit(uart_port_t uart_num);
 char uartGetchar(uart_port_t uart_num );
 void uartGets(uart_port_t uart_num, char *str);

@@ -29,7 +29,7 @@ const char test_message[] = "This is an example string, if you can read this, th
  * @brief Configure and install the default UART, then, connect it to the
  * console UART.
  */
-static void uartInitt(uart_port_t uart_num)
+void uartInit(uart_port_t uart_num, uint32_t baudrate, uint8_t size, uint8_t parity, uint8_t stop)
 {
     /* Configure parameters of an UART driver,
      * communication pins and install the driver */
@@ -99,7 +99,7 @@ void app_main(void)
 // what is inside the TO_IMPLEMENT check
     char payload[] = "Hola mundo!";
 
-    uartInitt(UART_NUM);
+    uartInit(0,115200,8,0,1);
     delayMs(500);
     uartGoto11(UART_NUM);
     uartClrScr(UART_NUM);
@@ -124,9 +124,9 @@ void app_main(void)
     char cadUart3[20];
     uint16_t num;
 
-    uartInitt(0,12345,8,1,2);
-    uartInitt(1,115200,8,0,1);
-    uartInitt(2,115200,8,0,1);
+    uartInit(0,12345,8,1,2);
+    uartInit(1,115200,8,0,1);
+    uartInit(2,115200,8,0,1);
     while(1) 
     {
         uartGetchar(0);
