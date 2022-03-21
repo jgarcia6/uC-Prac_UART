@@ -3,7 +3,7 @@
 
 #include "driver/uart.h"
 
-void uartInit(uart_port_t uart_num, uint32_t baudrate, uint8_t size, uint8_t parity, uint8_t stop);
+void uartInit(uart_port_t uart_num, uint32_t baudrate, uint8_t size, uint8_t parity, uint8_t stop, uint8_t txPin, uint8_t rxPin);
 
 // Send
 void uartPuts(uart_port_t uart_num, char *str);

@@ -29,7 +29,7 @@ const char test_message[] = "This is an example string, if you can read this, th
  * @brief Configure and install the default UART, then, connect it to the
  * console UART.
  */
-void uartInit(uart_port_t uart_num, uint32_t baudrate, uint8_t size, uint8_t parity, uint8_t stop)
+void uartInit(uart_port_t uart_num, uint32_t baudrate, uint8_t size, uint8_t parity, uint8_t stop, uint8_t txPin, uint8_t rxPin)
 {
     /* Configure parameters of an UART driver,
      * communication pins and install the driver */
@@ -44,7 +44,7 @@ void uartInit(uart_port_t uart_num, uint32_t baudrate, uint8_t size, uint8_t par
 
     ESP_ERROR_CHECK(uart_driver_install(uart_num, READ_BUF_SIZE, READ_BUF_SIZE, 0, NULL, 0));
     ESP_ERROR_CHECK(uart_param_config(uart_num, &uart_config));
-    ESP_ERROR_CHECK(uart_set_pin(uart_num, UART_TX_PIN, UART_RX_PIN,
+    ESP_ERROR_CHECK(uart_set_pin(uart_num, txPin, rxPin,
                                  UART_PIN_NO_CHANGE, UART_PIN_NO_CHANGE));
 
 }
@@ -99,7 +99,7 @@ void app_main(void)
 // what is inside the TO_IMPLEMENT check
     char payload[] = "Hola mundo!";
 
-    uartInit(0,115200,8,0,1);
+    uartInit(0, 115200, 8, 0, 1, UART_TX_PIN, UART_RX_PIN);
     delayMs(500);
     uartGoto11(UART_NUM);
     uartClrScr(UART_NUM);
