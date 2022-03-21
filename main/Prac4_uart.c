@@ -11,8 +11,8 @@
 #include "sdkconfig.h"
 #include "myUart.h"
 
-#define UART_NUM    (0)
-#define UART_RX_PIN     (2)
+#define UART_NUM        (0)
+#define UART_RX_PIN     (3)
 #define UART_TX_PIN     (1)
 
 #define UARTS_BAUD_RATE         (115200)
