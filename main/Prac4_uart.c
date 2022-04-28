@@ -11,7 +11,7 @@
 #include "sdkconfig.h"
 #include "myUart.h"
 
-#define UART_NUM        (0)
+#define PC_UART_PORT    (0)
 #define UART_RX_PIN     (3)
 #define UART_TX_PIN     (1)
 
@@ -89,7 +89,7 @@ char uartGetchar(uart_port_t uart_num)
         delayMs(10);
     }
     // read byte, no wait
-    uart_read_bytes(UART_NUM, &c, sizeof(c), 0);
+    uart_read_bytes(uart_num, &c, sizeof(c), 0);
 
     return c;
 }
@@ -101,14 +101,14 @@ void app_main(void)
 
     uartInit(0, 115200, 8, 0, 1, UART_TX_PIN, UART_RX_PIN);
     delayMs(500);
-    uartGoto11(UART_NUM);
-    uartClrScr(UART_NUM);
+    uartGoto11(PC_UART_PORT);
+    uartClrScr(PC_UART_PORT);
 
-    uartPutchar(UART_NUM,payload[0]);
-    uartPutchar(UART_NUM,payload[1]);
-    uartPutchar(UART_NUM,payload[2]);
-    uartPutchar(UART_NUM,payload[3]);
-    uartPutchar(UART_NUM,payload[10]);
+    uartPutchar(PC_UART_PORT,payload[0]);
+    uartPutchar(PC_UART_PORT,payload[1]);
+    uartPutchar(PC_UART_PORT,payload[2]);
+    uartPutchar(PC_UART_PORT,payload[3]);
+    uartPutchar(PC_UART_PORT,payload[10]);
     
     // Wait for input
     delayMs(500);
@@ -116,7 +116,7 @@ void app_main(void)
     // echo forever
     while(1)
     {
-        uartPutchar(UART_NUM,uartGetchar(UART_NUM));
+        uartPutchar(PC_UART_PORT,uartGetchar(PC_UART_PORT));
     }
 
 #ifdef TO_IMPLEMENT
