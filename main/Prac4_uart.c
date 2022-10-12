@@ -11,9 +11,18 @@
 #include "sdkconfig.h"
 #include "myUart.h"
 
+// UART 0
 #define PC_UART_PORT    (0)
-#define UART_RX_PIN     (3)
-#define UART_TX_PIN     (1)
+#define PC_UART_RX_PIN  (3)
+#define PC_UART_TX_PIN  (1)
+// UART 1
+#define UART1_PORT      (1)
+#define UART1_RX_PIN    (18)
+#define UART1_TX_PIN    (19)
+// UART 2
+#define UART2_PORT      (2)
+#define UART2_RX_PIN    (16)
+#define UART2_TX_PIN    (17)
 
 #define UARTS_BAUD_RATE         (115200)
 #define TASK_STACK_SIZE         (1048)
@@ -99,7 +108,7 @@ void app_main(void)
 // what is inside the TO_IMPLEMENT check
     char payload[] = "Hola mundo!";
 
-    uartInit(0, 115200, 8, 0, 1, UART_TX_PIN, UART_RX_PIN);
+    uartInit(PC_UART_PORT, 115200, 8, 0, 1, PC_UART_TX_PIN, PC_UART_RX_PIN);
     delayMs(500);
     uartGoto11(PC_UART_PORT);
     uartClrScr(PC_UART_PORT);
@@ -121,12 +130,12 @@ void app_main(void)
 
 #ifdef TO_IMPLEMENT
     char cad[20];
-    char cadUart3[20];
+    char cadUart[20];
     uint16_t num;
 
-    uartInit(0,12345,8,1,2);
-    uartInit(1,115200,8,0,1);
-    uartInit(2,115200,8,0,1);
+    uartInit(PC_UART_PORT,12345,8,1,2,PC_UART_RX_PIN,PC_UART_TX_PIN);
+    uartInit(UART1_PORT,115200,8,0,1,UART1_TX_PIN,UART1_RX_PIN);
+    uartInit(UART2_PORT,115200,8,0,1,UART2_TX_PIN,UART2_RX_PIN);
     while(1) 
     {
         uartGetchar(0);
@@ -139,15 +148,15 @@ void app_main(void)
         uartGotoxy(0,22,2);
         uartSetColor(0,GREEN);
         uartGets(0,cad);
-// For the following code to work, TX1 must be physically 
-// connected with a jumper wire to RX2
+// For the following code to work, TX2 must be physically 
+// connected with a jumper wire to RX1
 // -------------------------------------------
-        // Cycle through UART1->UART2
-        uartPuts(1,cad);
-        uartPuts(1,"\r");
-        uartGets(2,cadUart3);
+        // Cycle through UART2->UART1
+        uartPuts(2,cad);
+        uartPuts(2,"\r");
+        uartGets(1,cadUart);
         uartGotoxy(0,5,3);
-        uartPuts(0,cadUart3);
+        uartPuts(0,cadUart);
 // -------------------------------------------
         num = myAtoi(cad);
         myItoa(num,cad,16);
