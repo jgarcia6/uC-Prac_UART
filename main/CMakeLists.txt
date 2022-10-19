@@ -1,2 +1,2 @@
-idf_component_register(SRCS "Prac4_uart.c"
+idf_component_register(SRCS "Prac_uart.c"
                     INCLUDE_DIRS ".")
