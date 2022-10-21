@@ -133,7 +133,7 @@ void app_main(void)
     char cadUart[20];
     uint16_t num;
 
-    uartInit(PC_UART_PORT,12345,8,1,2,PC_UART_RX_PIN,PC_UART_TX_PIN);
+    uartInit(PC_UART_PORT,12345,8,1,2,PC_UART_TX_PIN,PC_UART_RX_PIN);
     uartInit(UART1_PORT,115200,8,0,1,UART1_TX_PIN,UART1_RX_PIN);
     uartInit(UART2_PORT,115200,8,0,1,UART2_TX_PIN,UART2_RX_PIN);
     while(1) 
