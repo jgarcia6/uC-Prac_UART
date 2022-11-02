@@ -79,29 +79,34 @@ void uartGoto11(uart_port_t uart_num)
 
 bool uartKbhit(uart_port_t uart_num)
 {
+    volatile uint32_t *uartStatus = UART_STATUS_REG(uart_num);
     uint8_t length;
-    uart_get_buffered_data_len(uart_num, (size_t*)&length);
+    length = UART_RXFIFO_CNT(*uartStatus);
     return (length > 0);
 }
 
 void uartPutchar(uart_port_t uart_num, char c)
 {
-    uart_write_bytes(uart_num, &c, sizeof(c));
+    volatile uint32_t *uartStatus = UART_STATUS_REG(uart_num);
+    volatile uint32_t *fifoReg = UART_FIFO_REG(uart_num);
+    
+    while(!(UART_TXFIFO_CNT(*uartStatus) < (FIFO_SIZE - 1)))
+        ;// wait until there is free space in the FIFO
+    *fifoReg = c;
 }
 
 char uartGetchar(uart_port_t uart_num)
 {
-    char c;
+    volatile uint32_t *fifoReg = UART_FIFO_REG(uart_num);
+    
     // Wait for a received byte
     while(!uartKbhit(uart_num))
     {
         delayMs(10);
     }
-    // read byte, no wait
-    uart_read_bytes(uart_num, &c, sizeof(c), 0);
-
-    return c;
+    return (char) *fifoReg;
 }
+
 void app_main(void)
 {
 // The following is only example code, delete this and implement
