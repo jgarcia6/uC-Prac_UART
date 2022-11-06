@@ -15,11 +15,11 @@
 #define UART2_STATUS_REG    0x3FF6E01C
 #define UART_STATUS_REG(n)  (volatile uint32_t *)((n == 0)? UART0_STATUS_REG : (n == 1)? UART1_STATUS_REG : UART2_STATUS_REG)
 
-#define FIFO_BIT_NUM        8
-#define FIFO_SIZE           (1 << FIFO_BIT_NUM)
+#define FIFO_NUM_BITS       8
+#define FIFO_SIZE           (128)
 #define UART_RXFIFO_CNT_POS 0
 #define UART_TXFIFO_CNT_POS 16
-#define UART_FIFO_CNT_MSK   (FIFO_SIZE - 1)
+#define UART_FIFO_CNT_MSK   ((1 << FIFO_NUM_BITS) - 1)
 
 #define UART_TXFIFO_CNT(st) (st >> UART_TXFIFO_CNT_POS & UART_FIFO_CNT_MSK)
 #define UART_RXFIFO_CNT(st) (st >> UART_RXFIFO_CNT_POS & UART_FIFO_CNT_MSK)

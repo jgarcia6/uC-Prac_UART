@@ -67,14 +67,20 @@ void uartClrScr(uart_port_t uart_num)
 {
     // Uso "const" para sugerir que el contenido del arreglo lo coloque en Flash y no en RAM
     const char caClearScr[] = "\e[2J";
-    uart_write_bytes(uart_num, caClearScr, sizeof(caClearScr));
+    for(uint8_t idx = 0; idx < sizeof(caClearScr); idx++)
+    {
+        uartPutchar(uart_num, caClearScr[idx]);
+    }
 }
 void uartGoto11(uart_port_t uart_num)
 {
     // Limpie un poco el arreglo de caracteres, los siguientes tres son equivalentes:
      // "\e[1;1H" == "\x1B[1;1H" == {27,'[','1',';','1','H'}
     const char caGoto11[] = "\e[1;1H";
-    uart_write_bytes(uart_num, caGoto11, sizeof(caGoto11));
+    for(uint8_t idx = 0; idx < sizeof(caGoto11); idx++)
+    {
+        uartPutchar(uart_num, caGoto11[idx]);
+    }
 }
 
 bool uartKbhit(uart_port_t uart_num)
@@ -89,9 +95,11 @@ void uartPutchar(uart_port_t uart_num, char c)
 {
     volatile uint32_t *uartStatus = UART_STATUS_REG(uart_num);
     volatile uint32_t *fifoReg = UART_FIFO_REG(uart_num);
-    
+    // wait until there is free space in the FIFO    
     while(!(UART_TXFIFO_CNT(*uartStatus) < (FIFO_SIZE - 1)))
-        ;// wait until there is free space in the FIFO
+    {
+        delayMs(10);
+    }
     *fifoReg = c;
 }
 
@@ -112,8 +120,11 @@ void app_main(void)
 // The following is only example code, delete this and implement
 // what is inside the TO_IMPLEMENT check
     char payload[] = "Hola mundo!";
-
-    uartInit(PC_UART_PORT, 115200, 8, 0, 1, PC_UART_TX_PIN, PC_UART_RX_PIN);
+    
+// TODO - Fixme! Taking advantage that the UART is already configured @115200 
+// because of the debug output of the SDK. Commenting the following line so that 
+// the UART Int. Handler does not process the RX FIFO data.
+    //uartInit(PC_UART_PORT, 115200, 8, 0, 1, PC_UART_TX_PIN, PC_UART_RX_PIN);
     delayMs(500);
     uartGoto11(PC_UART_PORT);
     uartClrScr(PC_UART_PORT);
