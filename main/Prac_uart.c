@@ -24,15 +24,9 @@
 #define UART2_RX_PIN    (16)
 #define UART2_TX_PIN    (17)
 
-#define UARTS_BAUD_RATE         (115200)
-#define TASK_STACK_SIZE         (1048)
-#define READ_BUF_SIZE           (1024)
-
-/* Message printed by the "consoletest" command.
- * It will also be used by the default UART to check the reply of the second
- * UART. As end of line characters are not standard here (\n, \r\n, \r...),
- * let's not include it in this string. */
-const char test_message[] = "This is an example string, if you can read this, the example is a success!";
+#define UARTS_BAUD_RATE (115200)
+#define TASK_STACK_SIZE (1048)
+#define READ_BUF_SIZE   (1024)
 
 /**
  * @brief Configure and install the default UART, then, connect it to the
