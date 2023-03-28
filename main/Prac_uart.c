@@ -96,8 +96,11 @@ char uartGetchar(uart_port_t uart_num)
 
     return c;
 }
+
+//#define HOMEWORK
 void app_main(void)
 {
+#ifndef HOMEWORK
 // The following is only example code, delete this and implement
 // what is inside the TO_IMPLEMENT check
     char payload[] = "Hola mundo!";
@@ -122,7 +125,7 @@ void app_main(void)
         uartPutchar(PC_UART_PORT,uartGetchar(PC_UART_PORT));
     }
 
-#ifdef TO_IMPLEMENT
+#else
     char cad[20];
     char cadUart[20];
     uint16_t num;
@@ -168,3 +171,9 @@ void app_main(void)
 #endif
 
 }
+
+1
+1.2
+0
+65535 -> FFFF
+Introduce un numero:2 -> 2
